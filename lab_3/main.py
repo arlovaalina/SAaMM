@@ -31,7 +31,7 @@ def get_new_state(graph, curr_state, state):
             return i
 
 
-def start_algorithm(p, pi1, pi2, tacts_amount):
+def start_algorithm(root, p, pi1, pi2, tacts_amount):
     graph = get_state_matrix()
     gueue_length = 0
     a = 0
@@ -53,15 +53,16 @@ def start_algorithm(p, pi1, pi2, tacts_amount):
         curr_state = new_state
     average_gueue_length = gueue_length / tacts_amount
     absolute_throughput = a / tacts_amount
+    queue_time = gueue_length / requests_in_queue
     
-    print('time', gueue_length / requests_in_queue)
-    print('formula', average_gueue_length / absolute_throughput)
+    print('queue_time', queue_time)
     print('average_gueue_length', average_gueue_length)
     print('absolute_throughput', absolute_throughput)
     
 
-    # aperiodic_interval_label = Label(root, text = "Длина отрезка апериодичности: " + str(round(aperiodic_interval, 3)), height = 1, width = 50, anchor = 'w').place(x = 200, y = 500)
-    # indirect_indications_label = Label(root, text = "2К / N: " + str(round(indirect_indications, 3)) + "; pi / 4: " + str(round(math.pi / 4, 3)), height = 1, width = 50, anchor = 'w').place(x = 200, y = 520)
+    queue_time_label = Label(root, text = "Среднее время прибывания заявки в очереди: " + str(round(queue_time, 4)), height = 1, width = 50, anchor = 'w').place(x = 300, y = 10)
+    average_gueue_length_label = Label(root, text = "Средняя длина очереди: " + str(round(average_gueue_length, 4)), height = 1, width = 50, anchor = 'w').place(x = 300, y = 50)
+    absolute_throughput_label = Label(root, text = "Абсолютная пропускная способность: " + str(round(absolute_throughput, 4)), height = 1, width = 50, anchor = 'w').place(x = 300, y = 90)
     
 
 def initialize_window():
@@ -85,7 +86,7 @@ def initialize_window():
     tacts_input.place(x = 10, y = 180)
     
     start_button = Button(root, text = "Моделировать", width = 15,
-        command = lambda: start_algorithm(float(p_input.get()), float(pi1_input.get()), float(pi2_input.get()), int(tacts_input.get())))
+        command = lambda: start_algorithm(root, float(p_input.get()), float(pi1_input.get()), float(pi2_input.get()), int(tacts_input.get())))
     start_button.place(x = 10, y = 210)
 
     root.mainloop()
